@@ -24,9 +24,9 @@ public class ScoreBoardFacadeImplTest {
 	@Test
 	public void start_game_test() {
 		ScoreBoardFacadeImpl scoreBoard = new ScoreBoardFacadeImpl();
-		Game game = scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		Game game = scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST);
 
-		assert scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST) != null;
 		assert game != null;
 		assert game.getHomeTeamScore() == 0;
 		assert game.getAwayTeamScore() == 0;
@@ -35,7 +35,9 @@ public class ScoreBoardFacadeImplTest {
 	@Test
 	public void finish_game_test() {
 		ScoreBoardFacadeImpl scoreBoard = new ScoreBoardFacadeImpl();
-		Game game = scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		Game game = scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST);
+
 		scoreBoard.finishGame(game);
 
 		assert scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST) == null;
@@ -47,7 +49,9 @@ public class ScoreBoardFacadeImplTest {
 		ScoreBoardFacadeImpl secondScoreBoard = new ScoreBoardFacadeImpl();
 
 		scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
-		Game secondGame = secondScoreBoard.startGame(TEAM3_TEST, TEAM4_TEST);
+		secondScoreBoard.startGame(TEAM3_TEST, TEAM4_TEST);
+		Game secondGame = scoreBoard.getGameByTeams(TEAM3_TEST, TEAM4_TEST);
+
 		scoreBoard.finishGame(secondGame);
 
 		assert scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST) != null;
@@ -59,10 +63,10 @@ public class ScoreBoardFacadeImplTest {
 	@Test
 	public void update_game_test() {
 		ScoreBoardFacadeImpl scoreBoard = new ScoreBoardFacadeImpl();
-		Game game = scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		Game game = scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST);
 		scoreBoard.updateScore(game, 2, 2);
 
-		assert scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST) != null;
 		assert game.getHomeTeamScore() == 2;
 		assert game.getAwayTeamScore() == 2;
 	}
@@ -72,7 +76,8 @@ public class ScoreBoardFacadeImplTest {
 		ScoreBoardFacadeImpl scoreBoardEmpty = new ScoreBoardFacadeImpl();
 		ScoreBoardFacadeImpl scoreBoard = new ScoreBoardFacadeImpl();
 
-		Game game = scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		Game game = scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST);
 		scoreBoardEmpty.updateScore(game, 2, 2);
 
 		assert scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST) != null;
@@ -82,14 +87,33 @@ public class ScoreBoardFacadeImplTest {
 	}
 
 	@Test
+	public void start_already_started_game_test() {
+		ScoreBoardFacadeImpl scoreBoard = new ScoreBoardFacadeImpl();
+		
+		scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		Game game = scoreBoard.getGameByTeams(TEAM1_TEST, TEAM2_TEST);
+		scoreBoard.updateScore(game, 2, 2);
+		scoreBoard.startGame(TEAM1_TEST, TEAM2_TEST);
+		
+		assert game.getHomeTeamScore() == 2;
+		assert game.getAwayTeamScore() == 2;
+	}
+	
+	@Test
 	public void summary_board_test() throws InterruptedException {
 		ScoreBoardFacadeImpl scoreBoard = new ScoreBoardFacadeImpl();
-		Game firstGame = scoreBoard.startGame(TEAM3_TEST, TEAM4_TEST);
-		Game secondGame = scoreBoard.startGame(TEAM5_TEST, TEAM6_TEST);
-		Game thirdGame = scoreBoard.startGame(TEAM7_TEST, TEAM8_TEST);
+		
+		scoreBoard.startGame(TEAM3_TEST, TEAM4_TEST);
+		Game firstGame = scoreBoard.getGameByTeams(TEAM3_TEST, TEAM4_TEST);
+		scoreBoard.startGame(TEAM5_TEST, TEAM6_TEST);
+		Game secondGame =  scoreBoard.getGameByTeams(TEAM5_TEST, TEAM6_TEST);
+		scoreBoard.startGame(TEAM7_TEST, TEAM8_TEST);
+		Game thirdGame = scoreBoard.getGameByTeams(TEAM7_TEST, TEAM8_TEST);
 		Thread.sleep(1); //Delay to test compareTo by insertion instant
-		Game fourthGame = scoreBoard.startGame(TEAM9_TEST, TEAM10_TEST);
-		Game fifthGame = scoreBoard.startGame(TEAM11_TEST, TEAM12_TEST);
+		scoreBoard.startGame(TEAM9_TEST, TEAM10_TEST);
+		Game fourthGame = scoreBoard.getGameByTeams(TEAM9_TEST, TEAM10_TEST);
+		scoreBoard.startGame(TEAM11_TEST, TEAM12_TEST);
+		Game fifthGame = scoreBoard.getGameByTeams(TEAM11_TEST, TEAM12_TEST);
 
 		scoreBoard.updateScore(firstGame, 2, 2);
 		scoreBoard.updateScore(secondGame, 1, 1);

@@ -15,10 +15,11 @@ public class ScoreBoardFacadeImpl implements ScoreBoardFacade {
 		activeMatchs = new HashSet<>();
 	}
 
-	public Game startGame(String homeTeam, String awayTeam) {
-		Game newMatch = new Game(homeTeam, awayTeam);
-		activeMatchs.add(newMatch);
-		return newMatch;
+	public void startGame(String homeTeam, String awayTeam) {
+		if (this.getGameByTeams(homeTeam, awayTeam) == null) {
+			Game newMatch = new Game(homeTeam, awayTeam);
+			activeMatchs.add(newMatch);
+		}
 	}
 
 	public void finishGame(Game game) {
