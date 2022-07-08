@@ -36,5 +36,21 @@ public class ScoreBoardTest {
 		assert scoreBoard.getActiveMatchs().contains(match) == true; 
 		assert match.getHomeTeamScore() == 2; 
 		assert match.getAwayTeamScore() == 2;
-	} 
+	}
+	
+	@Test
+	public void update_another_board_match_test () { 
+		ScoreBoard scoreBoardEmpty = new ScoreBoard();
+		ScoreBoard scoreBoard = new ScoreBoard(); 
+
+		Match match = scoreBoard.startMatch(TEAM1_TEST , TEAM2_TEST); 
+		scoreBoardEmpty.updateGame(match, 2, 2);
+		
+		assert scoreBoard.getActiveMatchs().contains(match) == true; 
+		assert scoreBoardEmpty.getActiveMatchs().contains(match) == false; 
+		assert match.getHomeTeamScore() == 0; 
+		assert match.getAwayTeamScore() == 0;
+	}
+	
+	
 } 

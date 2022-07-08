@@ -1,7 +1,6 @@
 package footballWorldCupScoreBoard; 
  
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase; 
@@ -29,7 +28,9 @@ public class ScoreBoard extends TestCase {
 	}
 
 	public void updateGame(Match match, int homeTeamScore, int awayTeamScore) {
-		match.updateScore(homeTeamScore, awayTeamScore);
+		if (activeMatchs.contains(match)) {
+			match.updateScore(homeTeamScore, awayTeamScore);
+		}
 	}
 	
 	
