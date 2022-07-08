@@ -24,6 +24,6 @@ public class ScoreBoardTest {
 		Match match = scoreBoard.startMatch(TEAM1_TEST , TEAM2_TEST); 
 		scoreBoard.finishGame(match);
 		
-		assert scoreBoard.getActiveMatchs().contains(match) == true; 
+		assert scoreBoard.getActiveMatchs().contains(match) == false; 
 	} 
 } 

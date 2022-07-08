@@ -22,6 +22,10 @@ public class ScoreBoard extends TestCase {
 	public List<Match> getActiveMatchs() {
 		return activeMatchs;
 	}
+
+	public void finishGame(Match match) {
+		activeMatchs.remove(match);
+	}
 	
 	
 } 
