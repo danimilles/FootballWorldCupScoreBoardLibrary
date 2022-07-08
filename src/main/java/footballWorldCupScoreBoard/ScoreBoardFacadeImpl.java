@@ -1,24 +1,26 @@
-package footballWorldCupScoreBoard; 
- 
+package footballWorldCupScoreBoard;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import junit.framework.TestCase; 
- 
-public class ScoreBoard extends TestCase { 
+public class ScoreBoardFacadeImpl implements ScoreBoardFacade {
 
+	private static final String END_LINE = "\n";
 	private Set<Match> activeMatchs;
 
-	public ScoreBoard() {
+	public ScoreBoardFacadeImpl() {
 		activeMatchs = new HashSet<>();
 	}
-	
+
 	public Match startMatch(String homeTeam, String awayTeam) {
 		Match newMatch = new Match(homeTeam, awayTeam);
 		activeMatchs.add(newMatch);
 		return newMatch;
 	}
-	
+
 	public Set<Match> getActiveMatchs() {
 		return activeMatchs;
 	}
@@ -32,6 +34,17 @@ public class ScoreBoard extends TestCase {
 			match.updateScore(homeTeamScore, awayTeamScore);
 		}
 	}
-	
-	
-} 
+
+	public String getSummary() {
+		StringBuilder result = new StringBuilder();
+		List<Match> sortedMatchs = new ArrayList<>(activeMatchs);
+		Collections.sort(sortedMatchs, Collections.reverseOrder());
+
+		for (Match match : sortedMatchs) {
+			result.append(match).append(END_LINE);
+		}
+
+		return result.toString();
+	}
+
+}
