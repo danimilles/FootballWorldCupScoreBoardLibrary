@@ -2,7 +2,7 @@ package footballWorldCupScoreBoard;
 
 import java.time.Instant;
 
-public class Match implements Comparable<Match> {
+public class Game implements Comparable<Game> {
 
 	private final String homeTeam;
 	private final String awayTeam;
@@ -10,7 +10,7 @@ public class Match implements Comparable<Match> {
 	private int awayTeamScore;
 	private final Instant creationTime;
 
-	public Match(String homeTeam, String awayTeam) {
+	public Game(String homeTeam, String awayTeam) {
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.homeTeamScore = 0;
@@ -45,7 +45,7 @@ public class Match implements Comparable<Match> {
 	}
 
 	@Override
-	public int compareTo(Match other) {
+	public int compareTo(Game other) {
 		int thisTotal = this.awayTeamScore + this.homeTeamScore;
 		int otherTotal = other.awayTeamScore + other.homeTeamScore;
 		int order = Integer.compare(thisTotal, otherTotal);

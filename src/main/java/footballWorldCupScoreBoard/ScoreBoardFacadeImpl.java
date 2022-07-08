@@ -9,42 +9,47 @@ import java.util.Set;
 public class ScoreBoardFacadeImpl implements ScoreBoardFacade {
 
 	private static final String END_LINE = "\n";
-	private Set<Match> activeMatchs;
+	private final Set<Game> activeMatchs;
 
 	public ScoreBoardFacadeImpl() {
 		activeMatchs = new HashSet<>();
 	}
 
-	public Match startMatch(String homeTeam, String awayTeam) {
-		Match newMatch = new Match(homeTeam, awayTeam);
+	public Game startGame(String homeTeam, String awayTeam) {
+		Game newMatch = new Game(homeTeam, awayTeam);
 		activeMatchs.add(newMatch);
 		return newMatch;
 	}
 
-	public Set<Match> getActiveMatchs() {
-		return activeMatchs;
+	public void finishGame(Game game) {
+		activeMatchs.remove(game);
 	}
 
-	public void finishGame(Match match) {
-		activeMatchs.remove(match);
-	}
-
-	public void updateGame(Match match, int homeTeamScore, int awayTeamScore) {
-		if (activeMatchs.contains(match)) {
-			match.updateScore(homeTeamScore, awayTeamScore);
+	public void updateScore(Game game, int homeTeamScore, int awayTeamScore) {
+		if (activeMatchs.contains(game)) {
+			game.updateScore(homeTeamScore, awayTeamScore);
 		}
 	}
 
 	public String getSummary() {
 		StringBuilder result = new StringBuilder();
-		List<Match> sortedMatchs = new ArrayList<>(activeMatchs);
+		List<Game> sortedMatchs = new ArrayList<>(activeMatchs);
 		Collections.sort(sortedMatchs, Collections.reverseOrder());
 
-		for (Match match : sortedMatchs) {
-			result.append(match).append(END_LINE);
+		for (Game game : sortedMatchs) {
+			result.append(game).append(END_LINE);
 		}
-
+		
 		return result.toString();
+	}
+
+	public Game getGameByTeams(String homeTeam, String awayTeam) {
+		for (Game game : activeMatchs) {
+			if (homeTeam.equals(game.getHomeTeam()) && awayTeam.equals(game.getAwayTeam())) {
+				return game;
+			}
+		}
+		return null;
 	}
 
 }

@@ -2,12 +2,13 @@ package footballWorldCupScoreBoard;
 
 public interface ScoreBoardFacade {
 
-	public Match startMatch(String homeTeam, String awayTeam);
+	public Game startGame(String homeTeam, String awayTeam);
 
-	public void finishGame(Match match);
+	public void finishGame(Game game);
 
-	public void updateGame(Match match, int homeTeamScore, int awayTeamScore);
+	public void updateScore(Game game, int homeTeamScore, int awayTeamScore);
 
 	public String getSummary();
 
+	public Game getGameByTeams(String homeTeam, String awayTeam);
 }
