@@ -19,6 +19,9 @@ public class ScoreBoard extends TestCase {
 		return newMatch;
 	}
 	
+	public List<Match> getActiveMatchs() {
+		return activeMatchs;
+	}
 	
 	
 } 
